@@ -1,10 +1,14 @@
+import { CharacterApiRepository } from "@/entities/character";
 import { useCharacters } from "@/features/charactersCatalog";
 import { CharacterList } from "@/features/charactersCatalog";
 import { useFavorites } from "@/features/favoriteCharacter";
 import { SearchBar } from "@/features/searchCharacter";
 
+const CharactersApi = new CharacterApiRepository();
+
 export function CharactersPage() {
-  const { query, setQuery, loading, items, error } = useCharacters();
+  const { query, setQuery, loading, items, error } =
+    useCharacters(CharactersApi);
   const { isFavorite, toggleFavorite } = useFavorites();
 
   return (
