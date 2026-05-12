@@ -1,10 +1,4 @@
-export interface Character {
-  id: number;
-  name: string;
-  image: string;
-  status: string;
-  species: string;
-}
+import type { Character } from "@/entities/character";
 
 export interface CharacterAPIResponse {
   info: {

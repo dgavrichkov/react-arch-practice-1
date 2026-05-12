@@ -1,5 +1,5 @@
-import { useFavorites } from "@/hooks/useFavorites";
-import { CharacterList } from "@/components/CharacterList";
+import { useFavorites } from "@/features/favoriteCharacter/useFavorites";
+import { CharacterList } from "@/features/charactersCatalog/ui/CharacterList";
 
 export function FavoritesPage() {
   const { list, isFavorite, toggleFavorite, clearFavorites } = useFavorites();

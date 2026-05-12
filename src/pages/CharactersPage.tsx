@@ -1,7 +1,7 @@
-import { useCharacters } from "@/hooks/useCharacters";
-import { useFavorites } from "@/hooks/useFavorites";
-import { SearchBar } from "@/components/SearchBar";
-import { CharacterList } from "@/components/CharacterList";
+import { useCharacters } from "@/features/charactersCatalog";
+import { CharacterList } from "@/features/charactersCatalog";
+import { useFavorites } from "@/features/favoriteCharacter";
+import { SearchBar } from "@/features/searchCharacter";
 
 export function CharactersPage() {
   const { query, setQuery, loading, items, error } = useCharacters();

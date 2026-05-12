@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Character } from "../types/character";
+import type { Character } from "@/entities/character";
 
 const LS_KEY = "favorites_characters_v1";
 

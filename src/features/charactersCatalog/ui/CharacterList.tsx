@@ -1,4 +1,4 @@
-import type { Character } from "@/types/character";
+import type { Character } from "@/entities/character";
 import { CharacterCard } from "./CharacterCard";
 
 interface Props {

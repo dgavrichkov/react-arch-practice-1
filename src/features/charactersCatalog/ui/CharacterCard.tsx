@@ -1,7 +1,7 @@
-import type { Character } from "@/types/character";
-import { Card, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import type { Character } from "@/entities/character";
+import { Card, CardTitle, CardContent } from "@/shared/ui/card";
+import { Button } from "@/shared/ui/button";
+import { cn } from "@/shared/lib/utils";
 import { Star } from "lucide-react";
 
 interface Props {

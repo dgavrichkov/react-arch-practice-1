@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Character, CharacterAPIResponse } from "../types/character";
+import type { Character, CharacterAPIResponse } from "@/entities/character";
 
 const ENDPOINT = "https://rickandmortyapi.com/api/character";
 
@@ -39,7 +39,7 @@ export function useCharacters() {
       fetchByName(query);
     }, 300);
     return () => clearTimeout(t);
-  }, [query]);
+  }, [query, fetchByName]);
 
   return useMemo(
     () => ({
