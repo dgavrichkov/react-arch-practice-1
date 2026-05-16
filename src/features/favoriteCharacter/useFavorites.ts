@@ -1,56 +1,69 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Character } from "@/entities/character";
+import type { CharacterFavoritesRepository } from "@/entities/character/repository/characterFavorites.port";
 
-const LS_KEY = "favorites_characters_v1";
+export function useFavorites(repository: CharacterFavoritesRepository) {
+  const [favorites, setFavorites] = useState<Record<number, Character> | null>(
+    null,
+  );
 
-export function useFavorites() {
-  const [favorites, setFavorites] = useState<Record<number, Character>>(() => {
-    let favorites = [];
-
+  const fetchFavorites = useCallback(async () => {
     try {
-      const raw = localStorage.getItem(LS_KEY);
-      if (raw) favorites = JSON.parse(raw);
-    } catch (e) {
-      console.error("Failed to load favorites", e);
-    }
+      const data = await repository.getFavorites();
 
-    return favorites;
-  });
+      setFavorites(data);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+  }, [repository]);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(LS_KEY);
-      if (raw) setFavorites(JSON.parse(raw));
-    } catch (e) {
-      console.error("Failed to load favorites", e);
-    }
-  }, []);
+    fetchFavorites();
+  }, [fetchFavorites]);
 
   useEffect(() => {
+    if (favorites === null) return;
+
     try {
-      localStorage.setItem(LS_KEY, JSON.stringify(favorites));
-    } catch (e) {
-      console.error("Failed to save favorites", e);
+      repository.saveFavorites(favorites);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
     }
-  }, [favorites]);
+  }, [favorites, repository]);
 
   const isFavorite = useCallback(
-    (id: number) => Boolean(favorites[id]),
+    (id: number) => Boolean(favorites?.[id]),
     [favorites],
   );
 
   const toggleFavorite = useCallback((char: Character) => {
-    setFavorites((prev) => {
-      const next = { ...prev };
-      if (next[char.id]) delete next[char.id];
-      else next[char.id] = char;
+    setFavorites((currentState) => {
+      const next = { ...(currentState ?? {}) };
+
+      if (next[char.id]) {
+        delete next[char.id];
+      } else {
+        next[char.id] = char;
+      }
+
       return next;
     });
   }, []);
 
   const clearFavorites = useCallback(() => setFavorites({}), []);
 
-  const list = Object.values(favorites);
+  const list = Object.values(favorites ?? {});
 
-  return { favorites, list, isFavorite, toggleFavorite, clearFavorites };
+  return {
+    favorites,
+    list,
+    isFavorite,
+    toggleFavorite,
+    clearFavorites,
+    fetchFavorites,
+  };
 }

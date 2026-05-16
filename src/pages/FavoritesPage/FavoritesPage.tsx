@@ -1,8 +1,12 @@
 import { useFavorites } from "@/features/favoriteCharacter/useFavorites";
 import { CharacterList } from "@/features/charactersCatalog/ui/CharacterList";
+import { CharacterFavoritesLocalStorageRepository } from "@/entities/character/repository/characterFavorites.localStorage.repository";
+
+const FavoritesApi = new CharacterFavoritesLocalStorageRepository();
 
 export function FavoritesPage() {
-  const { list, isFavorite, toggleFavorite, clearFavorites } = useFavorites();
+  const { list, isFavorite, toggleFavorite, clearFavorites } =
+    useFavorites(FavoritesApi);
 
   return (
     <div className="p-4">
