@@ -2,8 +2,8 @@ import { CharacterApiRepository } from "@/entities/character";
 import { CharacterFavoritesLocalStorageRepository } from "@/entities/character/repository/characterFavorites.localStorage.repository";
 import { useCharacters } from "@/features/charactersCatalog";
 import { CharacterList } from "@/features/charactersCatalog";
+import { SearchBar } from "@/features/charactersCatalog";
 import { useFavorites } from "@/features/favoriteCharacter";
-import { SearchBar } from "@/features/searchCharacter";
 
 const CharactersApi = new CharacterApiRepository();
 const FavoritesApi = new CharacterFavoritesLocalStorageRepository();
