@@ -12,17 +12,17 @@ const CharactersApi = new CharacterApiRepository();
 const FavoritesApi = new CharacterFavoritesLocalStorageRepository();
 
 export function CharactersPage() {
-  const { query, setQuery, loading, items, error } =
+  const { query, setQuery, isLoading, items, error } =
     useCharacters(CharactersApi);
   const { isFavorite, toggleFavorite } = useFavorites(FavoritesApi);
 
   return (
     <div className="p-4">
       <div className="mb-4">
-        <SearchBar value={query} onChange={setQuery} loading={loading} />
+        <SearchBar value={query} onChange={setQuery} loading={isLoading} />
       </div>
 
-      {error && <div className="text-red-600">Error: {error}</div>}
+      {error && <div className="text-red-600">Error: {error.message}</div>}
 
       <CharacterList
         items={items}
