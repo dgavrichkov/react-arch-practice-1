@@ -1,30 +1,38 @@
-import { Star } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { cn } from "@/shared/lib/utils";
 import { CharacterCard } from "@/entities/character";
 import { CharacterList } from "@/entities/character/ui/CharacterList";
-import { useCharactersCtx } from "@/entities/character/store/characters.context";
+import { SearchBar } from "@/features/charactersCatalog";
+import { useCharactersCatalogDI } from "@/features/charactersCatalog/DIContext";
+import { cn } from "@/shared/lib/utils";
+import { Button } from "@/shared/ui/button";
+import { Star } from "lucide-react";
 
-export function FavoritesPage() {
-  const { favoritesCharacters, isFavorite, toggleFavorite, clearFavorites } =
-    useCharactersCtx();
+export const CharacterCatalog = () => {
+  const {
+    characterNameQuery,
+    setCharacterNameQuery,
+    isCharactersLoading,
+    characters,
+    charactersError,
+    isFavorite,
+    toggleFavorite,
+  } = useCharactersCatalogDI();
 
   return (
     <div className="p-4">
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="text-xl font-semibold">Favorites</h2>
-        {favoritesCharacters.length > 0 && (
-          <button
-            className="text-sm underline text-muted-foreground"
-            onClick={clearFavorites}
-            title="Clear all favorites"
-          >
-            Clear all
-          </button>
-        )}
+      <div className="mb-4">
+        <SearchBar
+          value={characterNameQuery}
+          onChange={setCharacterNameQuery}
+          loading={isCharactersLoading}
+        />
       </div>
+
+      {charactersError && (
+        <div className="text-red-600">Error: {charactersError.message}</div>
+      )}
+
       <CharacterList
-        items={favoritesCharacters}
+        items={characters || []}
         renderCharacter={(character) => (
           <CharacterCard
             key={character.id}
@@ -56,4 +64,4 @@ export function FavoritesPage() {
       />
     </div>
   );
-}
+};
